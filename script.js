@@ -1,6 +1,6 @@
 // ======= TELEGRAM =======
 // Destek ve siparişler bu kanala gider. Kendi kanalını buraya yaz.
-const TELEGRAM_KANAL = "https://t.me/l4rex_store";
+const TELEGRAM_KANAL = "https://t.me/makifaknc";
 
 // Sipariş bildirim botu (L4REX_BOT). Gizli tutulmalı.
 const TG_BOT_TOKEN = "8800033320:AAH0vzNXBfJ_z0cGBfWAvTWegT2OgC8QAds";
