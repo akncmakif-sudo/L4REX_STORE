@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eşya Market - Dijital Eşya Satış</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">🛒 Eşya<span>Market</span></div>
+        <nav>
+            <a href="#urunler">Ürünler</a>
+            <a href="#hakkimizda">Hakkımızda</a>
+            <a href="#iletisim">İletişim</a>
+        </nav>
+        <div class="header-sag">
+            <button class="mini-btn admin" onclick="adminModalAc()" title="Admin Paneli">⚙️</button>
+            <button class="sepet-btn" onclick="sepetiAc()">🛒 Sepet (<span id="sepetSayi">0</span>)</button>
+            <div id="hesapAlan"></div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Dijital Eşya Satış Mağazası</h1>
+        <p>Güvenli, hızlı ve uygun fiyatlı dijital eşya alışverişi. Ödeme ve teslimat Telegram üzerinden güvenle yapılır.</p>
+        <a href="#urunler" class="btn">Ürünlere Göz At</a>
+    </section>
+
+    <section id="urunler" class="urunler">
+        <h2>Ürünlerimiz</h2>
+        <div class="grid" id="urunGrid"></div>
+    </section>
+
+    <section id="hakkimizda" class="hakkimizda">
+        <h2>Hakkımızda</h2>
+        <p>Sitemizde dijital oyun eşyaları, kozmetikler ve hediye kartları satılmaktadır. Ödemenizi aldıktan sonra ürünler dakikalar içinde teslim edilir. Gizliliğinize önem veriyoruz, bilgileriniz asla üçüncü kişilerle paylaşılmaz.</p>
+        <ul>
+            <li>✅ Anında Teslim</li>
+            <li>✅ Güvenli Ödeme</li>
+            <li>✅ 7/24 Destek</li>
+            <li>✅ Garantili Ürünler</li>
+        </ul>
+    </section>
+
+    <section id="iletisim" class="iletisim">
+        <h2>İletişim</h2>
+        <p>Satın alma ve sorularınız için Telegram kanalımıza katılın:</p>
+        <a id="telegramButon" class="btn telegram" href="https://t.me/l4rex_store" target="_blank">✈️ Destek / Telegram Kanalı</a>
+        <p class="kucuk">Ödeme onaylandıktan sonra ürün teslim edilir.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Eşya Market. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <!-- Sepet Paneli -->
+    <div id="sepetPanel" class="sepet-panel">
+        <div class="sepet-ust">
+            <h3>Sepetim</h3>
+            <button class="kapat" onclick="sepetiKapat()">✖</button>
+        </div>
+        <div id="sepetListe"></div>
+        <div class="sepet-alt">
+            <p>Toplam: <strong id="sepetToplam">0₺</strong></p>
+            <button class="btn" onclick="siparisVer()">Siparişi Tamamla</button>
+        </div>
+    </div>
+
+    <!-- Kayıt / Giriş Modal -->
+    <div id="girisModal" class="modal">
+        <div class="modal-icerik">
+            <button class="kapat" onclick="modalKapat()">✖</button>
+            <h3 id="modalBaslik">Hesabına Giriş Yap</h3>
+            <input type="text" id="kullaniciAdi" placeholder="Kullanıcı adı">
+            <input type="password" id="sifre" placeholder="Şifre">
+            <input type="password" id="sifreTekrar" placeholder="Şifre (tekrar)" style="display:none;">
+            <p id="modalHata" class="hata"></p>
+            <button class="btn tam-genislik" onclick="girisIslem()">Giriş Yap</button>
+            <p class="kucuk">Hesabın yok mu? <a href="#" onclick="kayitModunaGec()">Kayıt ol</a></p>
+        </div>
+    </div>
+
+    <!-- Admin Giriş Modalı -->
+    <div id="adminModal" class="modal">
+        <div class="modal-icerik">
+            <button class="kapat" onclick="adminModalKapat()">✖</button>
+            <h3>⚙️ Admin Paneli</h3>
+            <input type="password" id="adminSifre" placeholder="Admin şifresi">
+            <p id="adminHata" class="hata"></p>
+            <button class="btn tam-genislik" onclick="adminGiris()">Giriş</button>
+        </div>
+    </div>
+
+    <!-- Admin Paneli (Kullanıcılar + Siparişler) -->
+    <div id="kullanicilarModal" class="modal">
+        <div class="modal-icerik kullanici-icerik">
+            <button class="kapat" onclick="kullanicilarKapat()">✖</button>
+            <h3>⚙️ Admin Paneli</h3>
+            <div class="sekmeler">
+                <button class="sekme-btn aktif" id="btnSekmeKullanicilar" onclick="siparisSekmesi()">👥 Kullanıcılar</button>
+                <button class="sekme-btn" id="btnSekmeSiparisler" onclick="siparisSekmesiAc()">📦 Siparişler</button>
+            </div>
+            <div id="sekmeKullanicilar">
+                <p class="kucuk">Toplam: <strong id="kullaniciToplam">0</strong> kişi</p>
+                <div id="kullaniciListe" class="kullanici-liste"></div>
+            </div>
+            <div id="sekmeSiparisler" style="display:none;">
+                <p class="kucuk">Toplam: <strong id="siparisToplam">0</strong> sipariş</p>
+                <div id="siparisListe" class="kullanici-liste"></div>
+                <p class="kucuk">🔒 Kart bilgileri saklanmaz. Sadece ad soyad gösterilir.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ödeme Modalı -->
+    <div id="odemeModal" class="modal">
+        <div class="modal-icerik odeme-icerik">
+            <button class="kapat" onclick="odemeKapat()">✖</button>
+            <h3>💳 Satın Alma</h3>
+
+            <div id="odemeOzet">
+                <div class="odeme-kartlar">
+                    <span class="kart-tag">TROY</span>
+                    <span class="kart-tag">VISA</span>
+                    <span class="kart-tag">MASTERCARD</span>
+                    <p class="kucuk">Sadece Türkiye'de çıkarılmış kartlar kabul edilir.</p>
+                </div>
+
+                <div id="odemeUrunListe" class="odeme-urun-liste"></div>
+                <div class="odeme-toplam-satir">
+                    <span>Toplam:</span>
+                    <strong id="odemeToplam">0₺</strong>
+                </div>
+
+                <input type="text" id="kartSahip" placeholder="Kart sahibinin adı soyadı">
+                <input type="text" id="kartNo" placeholder="Kart numarası" inputmode="numeric" maxlength="19" oninput="this.value=kartNoFormatla(this.value)">
+                <input type="text" id="kartSkt" placeholder="AA/YY" inputmode="numeric" maxlength="5" oninput="this.value=sktFormatla(this.value)">
+                <input type="password" id="kartCvv" placeholder="CVV" inputmode="numeric" maxlength="4">
+
+                <p id="odemeHata" class="hata"></p>
+                <button class="btn tam-genislik" id="odemeBtn" onclick="odemeYap()">Ödemeyi Tamamla</button>
+            </div>
+
+            <div id="odemeSonuc" style="display:none; text-align:center; padding:20px;">
+                <div style="font-size:56px;">🎉</div>
+                <h3>Siparişiniz Alındı!</h3>
+                <p>Ödemeniz onaylandı. Ürününüz kısa sürede teslim edilecektir.</p>
+                <button class="btn tam-genislik" onclick="odemeSonucKapat()">Tamam</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mesaj" class="mesaj"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
