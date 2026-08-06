@@ -31,6 +31,18 @@ const urunler = [
 // ADMIN_SIFRE: Sadece senin bildiğin şifreyi buraya yaz.
 const ADMIN_SIFRE = "Mak.564.aknlarexcheat_42";
 
+// Worker (Cloudflare) — kayıtları whitelist'e eklemek için.
+const WORKER_URL = "https://misty-feather-eb2a.akncmakif.workers.dev";
+
+// Kayıt olan kullanıcıyı worker'daki whitelist'e bildir.
+function whitelisteBildir(ad, kimlik) {
+    fetch(WORKER_URL + "/whitelist/kayit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ad: ad, kimlik: kimlik })
+    }).catch(function () { /* sessiz geç */ });
+}
+
 function kullanicilariAl() {
     const veri = localStorage.getItem("em_kullanicilar");
     return veri ? JSON.parse(veri) : [];
@@ -89,6 +101,7 @@ function girisIslem() {
         liste.push({ ad: ad, sifre: sifre, kimlik: kimlik, tarih: new Date().toLocaleString("tr-TR") });
         kullanicilariKaydet(liste);
         oturumAc(ad);
+        whitelisteBildir(ad, kimlik);
         mesajGoster("Kimliğin: #" + kimlik);
     } else {
         const kullanici = liste.find(k => k.ad === ad && k.sifre === sifre);
