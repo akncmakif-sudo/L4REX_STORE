@@ -650,6 +650,83 @@ footer {
     opacity: 1;
 }
 
+/* Destek Paneli */
+.destek-icerik {
+    width: 480px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.bilet-satir {
+    background: #0f1420;
+    border: 1px solid #24304a;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.bilet-ust {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.bilet-id {
+    color: #fbbf24;
+    font-weight: 800;
+}
+
+.bilet-durum {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.bilet-durum.bekliyor { background: #b45309; }
+.bilet-durum.aktif { background: #2aa24e; }
+.bilet-durum.kapali { background: #6b7280; }
+
+.bilet-konu {
+    color: #93c5fd;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.bilet-sorun {
+    color: #cbd5e1;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.bilet-alt {
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+.bilet-mesajlar {
+    margin-top: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    background: #1a2233;
+    max-height: 140px;
+    overflow-y: auto;
+    font-size: 13px;
+}
+
+.bilet-yanit {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    margin-top: 8px;
+    border-radius: 6px;
+    border: 1px solid #33405e;
+    background: #0f1420;
+    color: #fff;
+    font-size: 13px;
+}
+
 /* Mobil */
 @media (max-width: 700px) {
     header {
