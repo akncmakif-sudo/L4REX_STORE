@@ -14,9 +14,10 @@
             <a href="#urunler">Ürünler</a>
             <a href="#hakkimizda">Hakkımızda</a>
             <a href="#iletisim">İletişim</a>
+            <a href="#" id="navDestek" onclick="destekPanelAc()" style="display:none;">🎫 Destek</a>
         </nav>
         <div class="header-sag">
-            <button class="mini-btn admin" onclick="adminModalAc()" title="Admin Paneli">⚙️</button>
+            <button class="mini-btn admin" onclick="hesapPanelAc()" title="Hesap">⚙️</button>
             <button class="sepet-btn" onclick="sepetiAc()">🛒 Sepet (<span id="sepetSayi">0</span>)</button>
             <div id="hesapAlan"></div>
         </div>
@@ -73,44 +74,58 @@
         <div class="modal-icerik">
             <button class="kapat" onclick="modalKapat()">✖</button>
             <h3 id="modalBaslik">Hesabına Giriş Yap</h3>
+            <p class="kucuk" id="modalAltYazi">Hesabına giriş yapmak için bilgilerini gir.</p>
             <input type="text" id="kullaniciAdi" placeholder="Kullanıcı adı">
             <input type="password" id="sifre" placeholder="Şifre">
             <input type="password" id="sifreTekrar" placeholder="Şifre (tekrar)" style="display:none;">
-            <p id="modalHata" class="hata"></p>
-            <button class="btn tam-genislik" onclick="girisIslem()">Giriş Yap</button>
-            <p class="kucuk">Hesabın yok mu? <a href="#" onclick="kayitModunaGec()">Kayıt ol</a></p>
-        </div>
-    </div>
-
-    <!-- Admin Giriş Modalı -->
-    <div id="adminModal" class="modal">
-        <div class="modal-icerik">
-            <button class="kapat" onclick="adminModalKapat()">✖</button>
-            <h3>⚙️ Admin Paneli</h3>
-            <input type="password" id="adminSifre" placeholder="Admin şifresi">
-            <p id="adminHata" class="hata"></p>
-            <button class="btn tam-genislik" onclick="adminGiris()">Giriş</button>
-        </div>
-    </div>
-
-    <!-- Admin Paneli (Kullanıcılar + Siparişler) -->
-    <div id="kullanicilarModal" class="modal">
-        <div class="modal-icerik kullanici-icerik">
-            <button class="kapat" onclick="kullanicilarKapat()">✖</button>
-            <h3>⚙️ Admin Paneli</h3>
-            <div class="sekmeler">
-                <button class="sekme-btn aktif" id="btnSekmeKullanicilar" onclick="siparisSekmesi()">👥 Kullanıcılar</button>
-                <button class="sekme-btn" id="btnSekmeSiparisler" onclick="siparisSekmesiAc()">📦 Siparişler</button>
+            <input type="text" id="tgId" placeholder="Telegram ID" style="display:none;">
+            <div id="kodAlani" style="display:none;">
+                <input type="text" id="kod" placeholder="Telegram'a gelen kod" inputmode="numeric" maxlength="4">
+                <p class="kucuk">Kod Telegram'ına gönderildi.</p>
             </div>
-            <div id="sekmeKullanicilar">
-                <p class="kucuk">Toplam: <strong id="kullaniciToplam">0</strong> kişi</p>
+            <p id="modalHata" class="hata"></p>
+            <button class="btn tam-genislik" id="girisBtn" onclick="girisIslem()">Giriş Yap</button>
+            <p class="kucuk" id="modalDegis">Hesabın yok mu? <a href="#" onclick="kayitModunaGec()">Kayıt ol</a></p>
+        </div>
+    </div>
+
+    <!-- Hesap Paneli (kimlik, yetki, whitelist yönetimi) -->
+    <div id="hesapModal" class="modal">
+        <div class="modal-icerik kullanici-icerik">
+            <button class="kapat" onclick="hesapPanelKapat()">✖</button>
+            <h3>⚙️ Hesap Paneli</h3>
+            <div id="hesapBilgi"></div>
+            <hr style="border-color:#24304a;margin:16px 0;">
+            <h3>🔑 Yetki</h3>
+            <div id="yetkiBilgi"></div>
+            <div id="yetkiAlAlan" style="display:none;">
+                <p class="kucuk">Admin olmak istiyorsan sahibe onay kodu isteği gönderilir.</p>
+                <button class="btn tam-genislik" style="background:#2aa24e;" onclick="yetkiAl()">🔑 Onay Kodu İste</button>
+                <input type="text" id="yKod" placeholder="Onay kodu" inputmode="numeric" maxlength="4" style="display:none;">
+                <button class="btn tam-genislik" id="yKodBtn" onclick="yetkiDogrula()" style="background:#4d9fff;display:none;">Kodu Doğrula</button>
+                <p id="yHata" class="hata"></p>
+            </div>
+            <div id="whitelistYonetimi" style="display:none;">
+                <hr style="border-color:#24304a;margin:16px 0;">
+                <h3>👥 Whitelist Yönetimi</h3>
+                <p class="kucuk">Kullanıcının 7 haneli kimlik numarasıyla ekle/çıkar.</p>
+                <input type="text" id="wKod" placeholder="Kimlik (7 hane)" inputmode="numeric" maxlength="7">
+                <p id="wHata" class="hata"></p>
+                <button class="btn tam-genislik" onclick="whitelistEkle()">➕ Whitelist'e Ekle</button>
+                <button class="btn tam-genislik" style="background:#b91c1c;" onclick="whitelistCikar()">➖ Whitelist'ten Çıkar</button>
+                <button class="btn tam-genislik" style="background:#24304a;" onclick="kullanicilariGoster()">👥 Kullanıcı Listesi</button>
                 <div id="kullaniciListe" class="kullanici-liste"></div>
             </div>
-            <div id="sekmeSiparisler" style="display:none;">
-                <p class="kucuk">Toplam: <strong id="siparisToplam">0</strong> sipariş</p>
-                <div id="siparisListe" class="kullanici-liste"></div>
-                <p class="kucuk">🔒 Kart bilgileri saklanmaz. Sadece ad soyad gösterilir.</p>
-            </div>
+        </div>
+    </div>
+
+    <!-- Destek Paneli (whitelist/admin için) -->
+    <div id="destekModal" class="modal">
+        <div class="modal-icerik destek-icerik">
+            <button class="kapat" onclick="destekPanelKapat()">✖</button>
+            <h3>🎫 Destek Biletleri</h3>
+            <p class="kucuk" id="destekAlt">Telegram'dan gelen biletler burada listelenir.</p>
+            <div id="biletListe" class="kullanici-liste"></div>
         </div>
     </div>
 
